@@ -3,7 +3,7 @@
  * SDK version: 4.0.0
  * CLI version: 2.3.4
  * 
- * Generated: Tue, 26 Jan 2021 20:24:36 GMT
+ * Generated: Thu, 28 Jan 2021 14:29:19 GMT
  */
 
 var APP_com_sky_app = (function () {
@@ -5612,55 +5612,181 @@ var APP_com_sky_app = (function () {
     },
   };
 
-  class App extends Lightning.Component {
-    static getFonts() {
-      return [{ family: 'Regular', url: Utils.asset('fonts/Roboto-Regular.ttf') }]
+  class Letter extends Lightning.Component {
+
+    constructor(letter){
+      super();
+      this.letter = letter;
     }
 
     static _template() {
-      return {
-        Background: {
-          w: 1920,
-          h: 1080,
-          color: 0xfffbb03b,
-          src: Utils.asset('images/background.png'),
-        },
-        Logo: {
-          mountX: 0.5,
-          mountY: 1,
-          x: 960,
-          y: 600,
-          src: Utils.asset('images/logo.png'),
-        },
+      return {      
+        y: 50,
+        x: 50,
         Text: {
-          mount: 0.5,
-          x: 960,
-          y: 720,
           text: {
-            text: "Let's start Building!",
-            fontFace: 'Regular',
-            fontSize: 64,
-            textColor: 0xbbffffff,
-          },
-        },
+            text: 'Letter',
+            textColor: 0xffff00ff,
+            textAlign: 'left',
+            fontSize: 30
+          }
+        }
       }
+    }
+  }
+
+
+  // const options = {stage: {w: window.innerWidth, h: window.innerHeight, useImageWorker: false}};
+  // const app = new SkyApp(options);
+  // document.body.appendChild(app.stage.getCanvas());
+
+  class App extends Lightning.Component {
+
+    _construct() {
+    }
+
+    _handleLeft() {
+      this._setState('shiftLeft');
+
+    }
+    _handleRight() {
+      this._setState('shiftRight');
     }
 
     _init() {
-      this.tag('Background')
-        .animation({
-          duration: 15,
-          repeat: -1,
-          actions: [
-            {
-              t: '',
-              p: 'color',
-              v: { 0: { v: 0xfffbb03b }, 0.5: { v: 0xfff46730 }, 0.8: { v: 0xfffbb03b } },
-            },
-          ],
-        })
-        .start();
+      console.clear();
+      console.log('Starting Sky App...');
     }
+
+    static _template() {
+      this.y = 50;
+
+      return {
+        Content: {
+          Header: {
+            y: 20,
+            text: {
+              text: 'Press an arrow key to select a letter...',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'left',
+              fontSize: 30
+            }
+          },
+          A: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            x: 10,
+            y: this.y,
+            text: {
+              text: 'a',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },
+          B: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            border: true,
+            x: 60,
+            y: this.y,
+            text: {
+              text: 'b',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },
+          C: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            x: 110,
+            y: this.y,
+            text: {
+              text: 'c',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },
+          D: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            x: 160,
+            y: this.y,
+            text: {
+              text: 'd',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },
+          E: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            x: 210,
+            y: this.y,
+            text: {
+              text: 'e',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },
+          F: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            x: 260,
+            y: this.y,
+            text: {
+              text: 'f',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },
+          G: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            x: 310,
+            y: this.y,
+            text: {
+              text: 'g',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },
+          H: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            x: 360,
+            y: this.y,
+            text: {
+              text: 'h',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },
+          I: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            x: 410,
+            y: this.y,
+            text: {
+              text: 'i',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },
+          J: {
+            rect: true, w: 50, h: 50, color: 0xff005500,
+            x: 460,
+            y: this.y,
+            text: {
+              text: 'j',
+              textColor: 0xaaaaaaaa,
+              textAlign: 'center',
+              fontSize: 30
+            }
+          },                                                        
+        }
+      }
+    };
+
   }
 
   function index() {
