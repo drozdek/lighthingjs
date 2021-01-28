@@ -6,17 +6,29 @@ export default class App extends Lightning.Component {
   _construct() {
   }
 
-  _handleLeft() {
-    this._setState('shiftLeft')
-
+  _onActive(){
+    console.log('I am visible');
   }
+
+  _handleLeft() {
+    this.handleLeft();
+  }
+
   _handleRight() {
-    this._setState('shiftRight')
+    this.handleRight();
   }
 
   _init() {
     console.clear();
     console.log('Starting Sky App...')
+  }
+
+  handleLeft() {
+    console.log('left')
+  }
+  
+  handleRight() {
+    console.log('right')
   }
 
   static _template() {
