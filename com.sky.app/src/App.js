@@ -28,7 +28,8 @@ export default class App extends Lightning.Component {
     let elemPosX = Math.ceil(elem.getSmooth('x') - 50);
     elem.setSmooth("x", elemPosX);
     this.currentPosX = elemPosX;
-    console.log('left' + elemPosX)
+    this.getLetter();
+    console.log('left' + elemPosX);
   }
 
   handleRight() {
@@ -36,11 +37,15 @@ export default class App extends Lightning.Component {
     let elemPosX = Math.ceil(elem.getSmooth('x') + 50);
     elem.setSmooth("x", elemPosX);
     this.currentPosX = elemPosX;
-    console.log('right' + elemPosX)
+    this.getLetter();    
+    console.log('right' + elemPosX);
   }
 
   getLetter(){
-
+    //const lettersArr = [{'a':0},{'b':-50},{'c':-100},{'d':-150},{'e':-200},{'f':-250},{'g':-300},{'h':-350},{'i':-400},{'j':-450}];
+    const lettersArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    let arrayIndex = lettersArr[this.currentPosX / 50];
+    console.log('arrayIndex: ' + arrayIndex);
   }
 
   static _template() {
