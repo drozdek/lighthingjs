@@ -43,7 +43,7 @@ export default class App extends Lightning.Component {
 
   getLetter() {
     const lettersArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    if (this.currentPosX < 0) {
+    if (this.currentPosX <= 0) {
       this.currentPosX = this.currentPosX * -1;
       console.log(this.currentPosX);
       let arrayIndex = lettersArr[this.currentPosX / 50];
@@ -53,6 +53,7 @@ export default class App extends Lightning.Component {
     else {
       let arrayIndex = lettersArr[0];
       this.letterSelected = arrayIndex;
+      console.log('arrayIndex A: ' + this.letterSelected);
     }
   }
 
@@ -65,6 +66,9 @@ export default class App extends Lightning.Component {
     return {
       Header: {
         y: 20, text: { text: 'Press an arrow key to select a letter...', textColor: 0xaa000000, textAlign: 'left', fontSize: 30 }
+      },
+      SelectionBox: {
+       y: this.y, x: 0, w: 50, h: 50, rect: true, colorTop: 0x4d636EFB, colorBottom: 0x4d1C27bC, zIndex: 1
       },
       LetterList: {
         A: {
