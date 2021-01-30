@@ -18,7 +18,7 @@ export default class App extends Lightning.Component {
   }
 
 
-  // code dealing with the states - this doesn't allow to perform a repetative operations
+  // code dealing with the states - this doesn't allow to perform repetative operations
   // ie: pressing the same key multiple times
   // therfore a 'normal' js solution is being applied
 
@@ -52,16 +52,29 @@ export default class App extends Lightning.Component {
   //   ]
   // }
 
+  /**
+   * @method _init
+   * 
+   */
+
   _init() {
     console.clear();
     console.log('Starting Sky App...')
   }
 
+
+  /**
+   * @method handleClick
+   * @returns {int} elemPosX
+   */
   handleClick() {
     let elemPosX = Math.ceil(this.tag('LetterList').getSmooth('x'));
     return elemPosX
   }
 
+  /**
+   * @method handleLeft - deals with the left arrow click
+   */
   handleLeft() {
     let elemPosX = Math.ceil(this.handleClick() - 50);
     this.tag('LetterList').setSmooth("x", elemPosX);
@@ -69,6 +82,9 @@ export default class App extends Lightning.Component {
     this.getLetter();
   }
 
+  /**
+   * @method handleRight - deals with the right arrow click
+   */
   handleRight() {
     let elemPosX = Math.ceil(this.handleClick() + 50);
     this.tag('LetterList').setSmooth("x", elemPosX);
@@ -76,23 +92,34 @@ export default class App extends Lightning.Component {
     this.getLetter();
   }
 
+  static _captureKey(key) {
+    return this.tag(this.state)
+  }
+
+  /**
+   * @method getLetter - deals with the left arrow click
+   * @returns {string} this.letterSelected
+   */
+
   getLetter() {
     const lettersArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    if (this.currentXPos <= 0) {
-      this.currentXPos = this.currentXPos * -1;
+    
+    if (this.currentXPos > 0) {
       console.log(this.currentXPos);
       let arrayIndex = lettersArr[this.currentXPos / 50];
       this.letterSelected = arrayIndex;
       console.log('arrayIndex: ' + this.letterSelected);
+      return this.letterSelected
     }
     else {
       // prevent from overscrolling 
       this.tag('LetterList').setSmooth("x", 0)
     }
+
   }
 
   static _template() {
-    this.y = 70;
+    this.y = 120;
     this.color = 0xff005500;
     this.textColor = 0xaaaaaaaa;
     this.textAlign = 'center';
@@ -234,7 +261,21 @@ export default class App extends Lightning.Component {
           }
         },
       }
+
     }
   };
 
 }
+
+// to deal with key pressing we must add stagingn options to the
+// const options = {stage: {w: window.innerWidth, h: window.innerHeight, useImageWorker: false}}
+// options.keys = {
+//     38: "Up",
+//     40: "Down",
+//     37: "Left",
+//     39: "Right",
+//     13: "Enter",
+//     83: "Search" 
+// };
+// const app = new BasicUsageExample(options);
+// document.body.appendChild(app.stage.getCanvas());
