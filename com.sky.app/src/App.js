@@ -6,16 +6,42 @@ export default class App extends Lightning.Component {
   _construct() {
   }
 
-  // _onActive(){
-  //   console.log('I am visible');
-  // }
-
   _handleLeft() {
-    this.handleLeft();
+    this._setState('HandleLeftKeyClick');
   }
 
   _handleRight() {
-    this.handleRight();
+    this._setState('HandleRightKeyClick')
+  }
+
+  static _states() {
+    return [
+      class HandleLeftKeyClick extends this {
+        $enter(event) {
+          let elem = this.tag('LetterList');
+          let elemPosX = Math.ceil(elem.getSmooth('x') - 50);
+          elem.setSmooth("x", elemPosX);
+          this.currentPosX = elemPosX;
+          this.getLetter(this.currentPosX);
+        }
+        $exit() {
+          console.log('left exit ')
+        }
+      },
+
+      class HandleRightKeyClick extends this {
+        $enter(event) {
+          let elem = this.tag('LetterList');
+          let elemPosX = Math.ceil(elem.getSmooth('x') + 50);
+          elem.setSmooth("x", elemPosX);
+          this.currentPosX = elemPosX;
+          this.getLetter(this.currentPosX);
+        }
+        $exit() {
+          console.log('right exit')
+        }
+      }
+    ]
   }
 
   _init() {
@@ -23,36 +49,37 @@ export default class App extends Lightning.Component {
     console.log('Starting Sky App...')
   }
 
-  handleLeft() {
-    let elem = this.tag('LetterList');
-    let elemPosX = Math.ceil(elem.getSmooth('x') - 50);
-    elem.setSmooth("x", elemPosX);
-    this.currentPosX = elemPosX;
-    this.getLetter();
-    // console.log('left' + elemPosX);
-  }
+  // handleLeft() {
+  //   let elem = this.tag('LetterList');
+  //   let elemPosX = Math.ceil(elem.getSmooth('x') - 50);
+  //   elem.setSmooth("x", elemPosX);
+  //   this.currentPosX = elemPosX;
+  //   this.getLetter();
+  //   // console.log('left' + elemPosX);
+  // }
 
-  handleRight() {
-    let elem = this.tag('LetterList');
-    let elemPosX = Math.ceil(elem.getSmooth('x') + 50);
-    elem.setSmooth("x", elemPosX);
-    this.currentPosX = elemPosX;
-    this.getLetter();
-    // console.log('right' + elemPosX);
-  }
+  // handleRight() {
+  //   let elem = this.tag('LetterList');
+  //   let elemPosX = Math.ceil(elem.getSmooth('x') + 50);
+  //   elem.setSmooth("x", elemPosX);
+  //   this.currentPosX = elemPosX;
+  //   this.getLetter();
+  //   // console.log('right' + elemPosX);
+  // }
 
-  getLetter() {
+  getLetter(pos) {
+    console.log('pos is' + pos)
     const lettersArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    if (this.currentPosX <= 0) {
-      this.currentPosX = this.currentPosX * -1;
-      console.log(this.currentPosX);
-      let arrayIndex = lettersArr[this.currentPosX / 50];
+    if (pos <= 0) {
+      pos = pos * -1;
+      console.log(pos);
+      let arrayIndex = lettersArr[pos / 50];
       this.letterSelected = arrayIndex;
       console.log('arrayIndex: ' + this.letterSelected);
     }
     else {
-      let arrayIndex = lettersArr[0];
-      this.letterSelected = arrayIndex;
+      // let arrayIndex = lettersArr[0];
+      // this.letterSelected = arrayIndex;
       console.log('arrayIndex A: ' + this.letterSelected);
     }
   }
@@ -68,7 +95,7 @@ export default class App extends Lightning.Component {
         y: 20, text: { text: 'Press an arrow key to select a letter...', textColor: 0xaa000000, textAlign: 'left', fontSize: 30 }
       },
       SelectionBox: {
-       y: this.y, x: 0, w: 50, h: 50, rect: true, colorTop: 0x4d636EFB, colorBottom: 0x4d1C27bC, zIndex: 1
+        y: this.y, x: 0, w: 50, h: 50, rect: true, colorTop: 0x4d636EFB, colorBottom: 0x4d1C27bC, zIndex: 1
       },
       LetterList: {
         A: {
