@@ -20,6 +20,7 @@ export default class App extends Lightning.Component {
 
   // code dealing with the states - this doesn't allow to perform a repetative operations
   // ie: pressing the same key multiple times
+  // therfore a 'normal' js solution is being applied
 
   // static _states() {
   //   return [
@@ -29,7 +30,7 @@ export default class App extends Lightning.Component {
   //         let elem = this.tag('LetterList');
   //         let elemPosX = Math.ceil(elem.getSmooth('x') - 50);
   //         elem.setSmooth("x", elemPosX);
-  //         this.currentPosX = elemPosX;      
+  //         this.currentXPos = elemPosX;      
   //         this.getLetter();    
   //       }
   //       $exit(event) {
@@ -42,7 +43,7 @@ export default class App extends Lightning.Component {
   //         let elem = this.tag('LetterList');
   //         let elemPosX = Math.ceil(elem.getSmooth('x') + 50);
   //         elem.setSmooth("x", elemPosX);
-  //         this.currentPosX = elemPosX;          
+  //         this.currentXPos = elemPosX;          
   //         this.getLetter();
   //       }
   //       $exit(event) {
@@ -64,30 +65,29 @@ export default class App extends Lightning.Component {
   handleLeft() {
     let elemPosX = Math.ceil(this.handleClick() - 50);
     this.tag('LetterList').setSmooth("x", elemPosX);
-    this.currentPosX = elemPosX;
+    this.currentXPos = elemPosX;
     this.getLetter();
   }
 
   handleRight() {
     let elemPosX = Math.ceil(this.handleClick() + 50);
     this.tag('LetterList').setSmooth("x", elemPosX);
-    this.currentPosX = elemPosX;
+    this.currentXPos = elemPosX;
     this.getLetter();
   }
 
   getLetter() {
     const lettersArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    if (this.currentPosX <= 0) {
-      this.currentPosX = this.currentPosX * -1;
-      console.log(this.currentPosX);
-      let arrayIndex = lettersArr[this.currentPosX / 50];
+    if (this.currentXPos <= 0) {
+      this.currentXPos = this.currentXPos * -1;
+      console.log(this.currentXPos);
+      let arrayIndex = lettersArr[this.currentXPos / 50];
       this.letterSelected = arrayIndex;
       console.log('arrayIndex: ' + this.letterSelected);
     }
     else {
-      // let arrayIndex = lettersArr[0];
-      // this.letterSelected = arrayIndex;
-      console.log('arrayIndex A: ' + this.letterSelected);
+      // prevent from overscrolling 
+      this.tag('LetterList').setSmooth("x", 0)
     }
   }
 
