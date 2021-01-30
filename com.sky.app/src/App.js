@@ -1,5 +1,5 @@
 import { Lightning, Utils } from '@lightningjs/sdk'
-import  Letter  from './Letter';
+import Letter from './Letter';
 
 export default class App extends Lightning.Component {
 
@@ -21,9 +21,9 @@ export default class App extends Lightning.Component {
 
   // }
 
-//   _handleInsert(key){
-// alert('handlekey' + key)
-//   }
+  //   _handleInsert(key){
+  // alert('handlekey' + key)
+  //   }
 
   // code dealing with the states - this doesn't allow to perform repetative operations
   // ie: pressing the same key multiple times
@@ -110,7 +110,7 @@ export default class App extends Lightning.Component {
    */
   getLetter() {
     const lettersArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    
+
     if (this.currentXPos < 0) {
       this.currentXPos = this.currentXPos * -1;
       console.log(this.currentXPos);
@@ -140,9 +140,85 @@ export default class App extends Lightning.Component {
         y: this.y, x: 0, w: 50, h: 50, rect: true, colorTop: 0x4d636EFB, colorBottom: 0x4d1C27bC, zIndex: 1
       },
       LetterList: {
-        A:{ 
-          type: Letter, buttonText: 'a', color: this.textColor, textAlign: this.textAlign, x: 0, y: 120 
+        A: {
+          type: Letter, buttonText: 'a', color: this.textColor, textAlign: this.textAlign, x: 0, y: 120
+        },
+        B: {
+          type: Letter, buttonText: 'b', color: this.textColor, textAlign: this.textAlign, x: 50, y: this.y
+        },
+        C: {
+          type: Letter, buttonText: 'c', color: this.textColor, textAlign: this.textAlign, x: 100, y: this.y
+        },
+        D: {
+          type: Letter, buttonText: 'd', color: this.textColor, textAlign: this.textAlign, x: 150, y: this.y
+        },
+        E: {
+          type: Letter, buttonText: 'e', color: this.textColor, textAlign: this.textAlign, x: 200, y: this.y
+        },
+        F: {
+          type: Letter, buttonText: 'f', color: this.textColor, textAlign: this.textAlign, x: 250, y: this.y
+        },
+        G: {
+          type: Letter, buttonText: 'g', color: this.textColor, textAlign: this.textAlign, x: 300, y: this.y
+        },
+        H: {
+          type: Letter, buttonText: 'h', color: this.textColor, textAlign: this.textAlign, x: 350, y: this.y
+        },
+        I: {
+          type: Letter, buttonText: 'i', color: this.textColor, textAlign: this.textAlign, x: 400, y: this.y
+        },
+        J: {
+          type: Letter, buttonText: 'j', color: this.textColor, textAlign: this.textAlign, x: 450, y: this.y
+        },
+        K: {
+          type: Letter, buttonText: 'k', color: this.textColor, textAlign: this.textAlign, x: 500, y: this.y
+        },
+        L: {
+          type: Letter, buttonText: 'l', color: this.textColor, textAlign: this.textAlign, x: 550, y: this.y
+        },
+        M: {
+          type: Letter, buttonText: 'm', color: this.textColor, textAlign: this.textAlign, x: 600, y: this.y
+        },
+        N: {
+          type: Letter, buttonText: 'n', color: this.textColor, textAlign: this.textAlign, x: 650, y: this.y
+        },
+        O: {
+          type: Letter, buttonText: 'o', color: this.textColor, textAlign: this.textAlign, x: 700, y: this.y
+        },
+        P: {
+          type: Letter, buttonText: 'p', color: this.textColor, textAlign: this.textAlign, x: 750, y: this.y
+        },
+        Q: {
+          type: Letter, buttonText: 'q', color: this.textColor, textAlign: this.textAlign, x: 800, y: this.y
+        },
+        R: {
+          type: Letter, buttonText: 'r', color: this.textColor, textAlign: this.textAlign, x: 850, y: this.y
+        },
+        S: {
+          type: Letter, buttonText: 's', color: this.textColor, textAlign: this.textAlign, x: 900, y: this.y
+        },
+        T: {
+          type: Letter, buttonText: 't', color: this.textColor, textAlign: this.textAlign, x: 950, y: this.y
+        },
+        U: {
+          type: Letter, buttonText: 'u', color: this.textColor, textAlign: this.textAlign, x: 1000, y: this.y
+        },
+        V: {
+          type: Letter, buttonText: 'v', color: this.textColor, textAlign: this.textAlign, x: 1050, y: this.y
+        },
+        W: {
+          type: Letter, buttonText: 'w', color: this.textColor, textAlign: this.textAlign, x: 1100, y: this.y
+        },
+        X: {
+          type: Letter, buttonText: 'x', color: this.textColor, textAlign: this.textAlign, x: 1150, y: this.y
+        },
+        Y: {
+          type: Letter, buttonText: 'y', color: this.textColor, textAlign: this.textAlign, x: 1200, y: this.y
+        },
+        Z: {
+          type: Letter, buttonText: 'z', color: this.textColor, textAlign: this.textAlign, x: 1250, y: this.y
         }
+
         // A: {
         //   rect: true, w: 50, h: 50, color: this.color, x: 0, y: this.y, text: { text: 'a', color: this.textColor, textAlign: this.textAlign, fontSize: 30 }
         // },
