@@ -1,5 +1,5 @@
 import { Lightning, Utils } from '@lightningjs/sdk'
-import Letter from './Letter';
+import  Letter  from './Letter';
 
 export default class App extends Lightning.Component {
 
@@ -17,6 +17,13 @@ export default class App extends Lightning.Component {
     // this._setState('HandleRightKeyClick')
   }
 
+  // _captureKey(key){
+
+  // }
+
+//   _handleInsert(key){
+// alert('handlekey' + key)
+//   }
 
   // code dealing with the states - this doesn't allow to perform repetative operations
   // ie: pressing the same key multiple times
@@ -54,9 +61,7 @@ export default class App extends Lightning.Component {
 
   /**
    * @method _init
-   * 
    */
-
   _init() {
     console.clear();
     console.log('Starting Sky App...')
@@ -68,7 +73,7 @@ export default class App extends Lightning.Component {
    * @returns {int} elemPosX
    */
   handleClick() {
-    let elemPosX = Math.ceil(this.tag('LetterList').getSmooth('x'));
+    let elemPosX = this.tag('LetterList').getSmooth('x');
     return elemPosX
   }
 
@@ -92,19 +97,22 @@ export default class App extends Lightning.Component {
     this.getLetter();
   }
 
+  /**
+   * @method handleLeft - deals with the left arrow click
+   */
   static _captureKey(key) {
     return this.tag(this.state)
   }
 
   /**
-   * @method getLetter - deals with the left arrow click
+   * @method getLetter - gets letter on the left arrow click
    * @returns {string} this.letterSelected
    */
-
   getLetter() {
     const lettersArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     
-    if (this.currentXPos > 0) {
+    if (this.currentXPos < 0) {
+      this.currentXPos = this.currentXPos * -1;
       console.log(this.currentXPos);
       let arrayIndex = lettersArr[this.currentXPos / 50];
       this.letterSelected = arrayIndex;
@@ -132,134 +140,137 @@ export default class App extends Lightning.Component {
         y: this.y, x: 0, w: 50, h: 50, rect: true, colorTop: 0x4d636EFB, colorBottom: 0x4d1C27bC, zIndex: 1
       },
       LetterList: {
-        A: {
-          rect: true, w: 50, h: 50, color: this.color, x: 0, y: this.y, text: { text: 'a', color: this.textColor, textAlign: this.textAlign, fontSize: 30 }
-        },
-        B: {
-          rect: true, w: 50, h: 50, color: this.color, border: true, x: 50, y: this.y, text: {
-            text: 'b', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        C: {
-          rect: true, w: 50, h: 50, color: this.color, x: 100, y: this.y, text: {
-            text: 'c', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        D: {
-          rect: true, w: 50, h: 50, color: this.color, x: 150, y: this.y, text: {
-            text: 'd', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        E: {
-          rect: true, w: 50, h: 50, color: this.color, x: 200, y: this.y, text: {
-            text: 'e', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        F: {
-          rect: true, w: 50, h: 50, color: this.color, x: 250, y: this.y, text: {
-            text: 'f', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        G: {
-          rect: true, w: 50, h: 50, color: this.color, x: 300, y: this.y, text: {
-            text: 'g', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        H: {
-          rect: true, w: 50, h: 50, color: this.color, x: 350, y: this.y, text: {
-            text: 'h', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        I: {
-          rect: true, w: 50, h: 50, color: this.color, x: 400, y: this.y, text: {
-            text: 'i', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        J: {
-          rect: true, w: 50, h: 50, color: this.color, x: 450, y: this.y, text: {
-            text: 'j', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        K: {
-          rect: true, w: 50, h: 50, color: this.color, x: 500, y: this.y, text: {
-            text: 'k', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        L: {
-          rect: true, w: 50, h: 50, color: this.color, x: 550, y: this.y, text: {
-            text: 'l', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        M: {
-          rect: true, w: 50, h: 50, color: this.color, x: 600, y: this.y, text: {
-            text: 'm', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        N: {
-          rect: true, w: 50, h: 50, color: this.color, x: 650, y: this.y, text: {
-            text: 'n', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        O: {
-          rect: true, w: 50, h: 50, color: this.color, x: 700, y: this.y, text: {
-            text: 'o', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        P: {
-          rect: true, w: 50, h: 50, color: this.color, x: 750, y: this.y, text: {
-            text: 'p', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        Q: {
-          rect: true, w: 50, h: 50, color: this.color, x: 800, y: this.y, text: {
-            text: 'q', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        R: {
-          rect: true, w: 50, h: 50, color: this.color, x: 850, y: this.y, text: {
-            text: 'r', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        S: {
-          rect: true, w: 50, h: 50, color: this.color, x: 900, y: this.y, text: {
-            text: 's', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        T: {
-          rect: true, w: 50, h: 50, color: this.color, x: 950, y: this.y, text: {
-            text: 't', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        U: {
-          rect: true, w: 50, h: 50, color: this.color, x: 1000, y: this.y, text: {
-            text: 'u', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        V: {
-          rect: true, w: 50, h: 50, color: this.color, x: 1050, y: this.y, text: {
-            text: 'v', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        W: {
-          rect: true, w: 50, h: 50, color: this.color, x: 1100, y: this.y, text: {
-            text: 'w', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        X: {
-          rect: true, w: 50, h: 50, color: this.color, x: 1150, y: this.y, text: {
-            text: 'x', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        Y: {
-          rect: true, w: 50, h: 50, color: this.color, x: 1200, y: this.y, text: {
-            text: 'y', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
-        Z: {
-          rect: true, w: 50, h: 50, color: this.color, x: 1250, y: this.y, text: {
-            text: 'z', color: this.textColor, textAlign: this.textAlign, fontSize: 30
-          }
-        },
+        A:{ 
+          type: Letter, buttonText: 'a', color: this.textColor, textAlign: this.textAlign, x: 0, y: 120 
+        }
+        // A: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 0, y: this.y, text: { text: 'a', color: this.textColor, textAlign: this.textAlign, fontSize: 30 }
+        // },
+        // B: {
+        //   rect: true, w: 50, h: 50, color: this.color, border: true, x: 50, y: this.y, text: {
+        //     text: 'b', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // C: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 100, y: this.y, text: {
+        //     text: 'c', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // D: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 150, y: this.y, text: {
+        //     text: 'd', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // E: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 200, y: this.y, text: {
+        //     text: 'e', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // F: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 250, y: this.y, text: {
+        //     text: 'f', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // G: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 300, y: this.y, text: {
+        //     text: 'g', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // H: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 350, y: this.y, text: {
+        //     text: 'h', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // I: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 400, y: this.y, text: {
+        //     text: 'i', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // J: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 450, y: this.y, text: {
+        //     text: 'j', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // K: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 500, y: this.y, text: {
+        //     text: 'k', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // L: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 550, y: this.y, text: {
+        //     text: 'l', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // M: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 600, y: this.y, text: {
+        //     text: 'm', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // N: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 650, y: this.y, text: {
+        //     text: 'n', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // O: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 700, y: this.y, text: {
+        //     text: 'o', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // P: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 750, y: this.y, text: {
+        //     text: 'p', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // Q: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 800, y: this.y, text: {
+        //     text: 'q', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // R: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 850, y: this.y, text: {
+        //     text: 'r', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // S: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 900, y: this.y, text: {
+        //     text: 's', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // T: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 950, y: this.y, text: {
+        //     text: 't', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // U: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 1000, y: this.y, text: {
+        //     text: 'u', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // V: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 1050, y: this.y, text: {
+        //     text: 'v', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // W: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 1100, y: this.y, text: {
+        //     text: 'w', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // X: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 1150, y: this.y, text: {
+        //     text: 'x', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // Y: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 1200, y: this.y, text: {
+        //     text: 'y', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
+        // Z: {
+        //   rect: true, w: 50, h: 50, color: this.color, x: 1250, y: this.y, text: {
+        //     text: 'z', color: this.textColor, textAlign: this.textAlign, fontSize: 30
+        //   }
+        // },
       }
 
     }
@@ -271,11 +282,9 @@ export default class App extends Lightning.Component {
 // const options = {stage: {w: window.innerWidth, h: window.innerHeight, useImageWorker: false}}
 // options.keys = {
 //     38: "Up",
-//     40: "Down",
-//     37: "Left",
-//     39: "Right",
-//     13: "Enter",
-//     83: "Search" 
+//     40: "Down"
 // };
 // const app = new BasicUsageExample(options);
 // document.body.appendChild(app.stage.getCanvas());
+
+// by default is sets h: 1920 w:1080
