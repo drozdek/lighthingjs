@@ -3,77 +3,84 @@ import Letter from './Letter';
 
 export default class App extends Lightning.Component {
 
-  _construct() {
-  }
-
   _handleLeft() {
-    this._setState('HandleLeftKeyClick');
+    this.handleLeft();
+
+    // call state    
+    // this._setState('HandleLeftKeyClick');
   }
 
   _handleRight() {
-    this._setState('HandleRightKeyClick')
+    this.handleRight();
+
+    // call state
+    // this._setState('HandleRightKeyClick')
   }
 
-  static _states() {
-    return [
-      class HandleLeftKeyClick extends this {
-        $enter(event) {
-          let elem = this.tag('LetterList');
-          let elemPosX = Math.ceil(elem.getSmooth('x') - 50);
-          elem.setSmooth("x", elemPosX);
-          this.currentPosX = elemPosX;
-          this.getLetter(this.currentPosX);
-        }
-        $exit() {
-          console.log('left exit ')
-        }
-      },
 
-      class HandleRightKeyClick extends this {
-        $enter(event) {
-          let elem = this.tag('LetterList');
-          let elemPosX = Math.ceil(elem.getSmooth('x') + 50);
-          elem.setSmooth("x", elemPosX);
-          this.currentPosX = elemPosX;
-          this.getLetter(this.currentPosX);
-        }
-        $exit() {
-          console.log('right exit')
-        }
-      }
-    ]
-  }
+  // code dealing with the states - this doesn't allow to perform a repetative operations
+  // ie: pressing the same key multiple times
+
+  // static _states() {
+  //   return [
+  //     class HandleLeftKeyClick extends this {
+  //       $enter(event) {
+  //         console.log('on left enter...')
+  //         let elem = this.tag('LetterList');
+  //         let elemPosX = Math.ceil(elem.getSmooth('x') - 50);
+  //         elem.setSmooth("x", elemPosX);
+  //         this.currentPosX = elemPosX;      
+  //         this.getLetter();    
+  //       }
+  //       $exit(event) {
+  //       }
+  //     },
+
+  //     class HandleRightKeyClick extends this {
+  //       $enter(event) {
+  //         console.log('on right enter...')
+  //         let elem = this.tag('LetterList');
+  //         let elemPosX = Math.ceil(elem.getSmooth('x') + 50);
+  //         elem.setSmooth("x", elemPosX);
+  //         this.currentPosX = elemPosX;          
+  //         this.getLetter();
+  //       }
+  //       $exit(event) {
+  //       }
+  //     }
+  //   ]
+  // }
 
   _init() {
     console.clear();
     console.log('Starting Sky App...')
   }
 
-  // handleLeft() {
-  //   let elem = this.tag('LetterList');
-  //   let elemPosX = Math.ceil(elem.getSmooth('x') - 50);
-  //   elem.setSmooth("x", elemPosX);
-  //   this.currentPosX = elemPosX;
-  //   this.getLetter();
-  //   // console.log('left' + elemPosX);
-  // }
+  handleClick() {
+    let elemPosX = Math.ceil(this.tag('LetterList').getSmooth('x'));
+    return elemPosX
+  }
 
-  // handleRight() {
-  //   let elem = this.tag('LetterList');
-  //   let elemPosX = Math.ceil(elem.getSmooth('x') + 50);
-  //   elem.setSmooth("x", elemPosX);
-  //   this.currentPosX = elemPosX;
-  //   this.getLetter();
-  //   // console.log('right' + elemPosX);
-  // }
+  handleLeft() {
+    let elemPosX = Math.ceil(this.handleClick() - 50);
+    this.tag('LetterList').setSmooth("x", elemPosX);
+    this.currentPosX = elemPosX;
+    this.getLetter();
+  }
 
-  getLetter(pos) {
-    console.log('pos is' + pos)
+  handleRight() {
+    let elemPosX = Math.ceil(this.handleClick() + 50);
+    this.tag('LetterList').setSmooth("x", elemPosX);
+    this.currentPosX = elemPosX;
+    this.getLetter();
+  }
+
+  getLetter() {
     const lettersArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    if (pos <= 0) {
-      pos = pos * -1;
-      console.log(pos);
-      let arrayIndex = lettersArr[pos / 50];
+    if (this.currentPosX <= 0) {
+      this.currentPosX = this.currentPosX * -1;
+      console.log(this.currentPosX);
+      let arrayIndex = lettersArr[this.currentPosX / 50];
       this.letterSelected = arrayIndex;
       console.log('arrayIndex: ' + this.letterSelected);
     }
