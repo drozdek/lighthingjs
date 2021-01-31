@@ -29,6 +29,12 @@ export default class App extends Lightning.Application {
         _getFocused(event) {
           return this.tag('HandleRightKeyClick');
         }
+      },
+
+      class HandleInsertKeyClick extends this {
+        _getFocused(event) {
+          return this.tag('HandleRightKeyClick');
+        }
       }
     ]
   }
@@ -61,6 +67,13 @@ export default class App extends Lightning.Application {
     this.getLetter();
   }
 
+  _handleInsert(){
+    console.log('insert')
+  }
+
+  _handleDelete(){
+    console.log('delete')
+  }
   /**
    * @method handleRight - deals with the right arrow click
    */
@@ -200,10 +213,13 @@ export default class App extends Lightning.Application {
 
 // to deal with key pressing we must add stagingn options to the
 const options = { stage: { w: window.innerWidth, h: window.innerHeight, useImageWorker: false } }
-// options.keys = {
-//     38: "Up",
-//     40: "Down"
-// };
+options.keys = {
+  37: "Left",
+  39: "Right",
+  45: "Insert",
+  46: "Delete"
+};
+
 const app = new App(options);
 document.body.appendChild(app.stage.getCanvas());
 
