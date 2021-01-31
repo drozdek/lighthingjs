@@ -13,10 +13,6 @@ export default class App extends Lightning.Application {
     this.handleRight();
   }
 
-  _handleUp() {
-    console.log()
-  }
-
   static _states() {
     return [
       class HandleLeftKeyClick extends this {
@@ -30,12 +26,6 @@ export default class App extends Lightning.Application {
           return this.tag('HandleRightKeyClick');
         }
       },
-
-      class HandleInsertKeyClick extends this {
-        _getFocused(event) {
-          return this.tag('HandleRightKeyClick');
-        }
-      }
     ]
   }
 
@@ -43,9 +33,9 @@ export default class App extends Lightning.Application {
    * @method _init
    */
   _init() {
+    this.lettersArray = [];
     console.clear();
     console.log('Starting Sky App...')
-
   }
 
   /**
@@ -67,8 +57,20 @@ export default class App extends Lightning.Application {
     this.getLetter();
   }
 
-  _handleInsert(){
-    console.log('insert')
+  _handleInsert(){               
+    //this.tag('Choice').text.text = this.letterSelected;
+
+    let res = this.tag('Choice').text.text;
+
+    this.lettersArray.push(this.letterSelected);
+    this.result = this.lettersArray.map((item, val) => {
+      return item
+    })
+    console.log(this.lettersArray)
+    // this.lettersArray.map( el =>  this.tag('Choice').text.text = el)
+     this.tag('Choice').text.text  = this.result
+    // res += this.tag('Choice').text
+    // this.tag('Choice').text = res
   }
 
   _handleDelete(){
@@ -82,13 +84,6 @@ export default class App extends Lightning.Application {
     this.tag('LetterList').setSmooth("x", elemPosX);
     this.currentXPos = elemPosX;
     this.getLetter();
-  }
-
-  /**
-   * @method handleLeft - deals with the left arrow click
-   */
-  static _captureKey(key) {
-    return this.tag(this.state)
   }
 
   /**
@@ -118,7 +113,7 @@ export default class App extends Lightning.Application {
     this.color = 0xff005500;
     this.textColor = 0xaaaaaaaa;
     this.textAlign = 'center';
-    this.letterSelected = ""
+    this.letterSelected = "";
     return {
       Header: {
         y: 20, text: { text: 'Press an arrow key to select a letter...', textColor: 0xaa000000, textAlign: 'left', fontSize: 30 }
@@ -205,7 +200,10 @@ export default class App extends Lightning.Application {
         Z: {
           type: Letter, buttonText: 'z', color: this.textColor, textAlign: this.textAlign, x: 1250, y: this.y
         }
-      }
+      },
+      Choice: {
+        y: 180, x: 50, text: { text: 'Your choice is...', textColor: 0xaa000000, textAlign: 'left', fontSize: 30  }
+      }      
     }
   };
 
