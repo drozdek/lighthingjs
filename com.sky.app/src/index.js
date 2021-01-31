@@ -57,24 +57,21 @@ export default class App extends Lightning.Application {
     this.getLetter();
   }
 
-  _handleInsert(){               
-    //this.tag('Choice').text.text = this.letterSelected;
-
-    let res = this.tag('Choice').text.text;
-
+  _handleInsert() {
     this.lettersArray.push(this.letterSelected);
-    this.result = this.lettersArray.map((item, val) => {
+    let result = this.lettersArray.map(item => {
       return item
     })
     console.log(this.lettersArray)
-    // this.lettersArray.map( el =>  this.tag('Choice').text.text = el)
-     this.tag('Choice').text.text  = this.result
-    // res += this.tag('Choice').text
-    // this.tag('Choice').text = res
+    this.tag('Choice').text.text = result
   }
 
-  _handleDelete(){
-    console.log('delete')
+  _handleDelete() {
+    this.lettersArray.pop();
+    let result = this.lettersArray.map( item => { 
+      return item
+    });
+    this.tag('Choice').text.text = result
   }
   /**
    * @method handleRight - deals with the right arrow click
@@ -114,6 +111,7 @@ export default class App extends Lightning.Application {
     this.textColor = 0xaaaaaaaa;
     this.textAlign = 'center';
     this.letterSelected = "";
+    this.letterArray = [];
     return {
       Header: {
         y: 20, text: { text: 'Press an arrow key to select a letter...', textColor: 0xaa000000, textAlign: 'left', fontSize: 30 }
@@ -202,8 +200,8 @@ export default class App extends Lightning.Application {
         }
       },
       Choice: {
-        y: 180, x: 50, text: { text: 'Your choice is...', textColor: 0xaa000000, textAlign: 'left', fontSize: 30  }
-      }      
+        y: 180, x: 50, text: { text: 'Your choice is...', textColor: 0xaa000000, textAlign: 'left', fontSize: 30 }
+      }
     }
   };
 
@@ -220,5 +218,3 @@ options.keys = {
 
 const app = new App(options);
 document.body.appendChild(app.stage.getCanvas());
-
-// by default is sets h: 1920 w:1080
