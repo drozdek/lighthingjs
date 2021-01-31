@@ -1,2 +1,6 @@
 node_modules
 com.sky.app/node_modules/
+dist
+releases
+.tmp
+build
