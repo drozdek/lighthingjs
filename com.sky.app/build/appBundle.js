@@ -3,7 +3,7 @@
  * SDK version: 4.0.0
  * CLI version: 2.3.4
  * 
- * Generated: Sun, 31 Jan 2021 15:47:03 GMT
+ * Generated: Sun, 31 Jan 2021 16:27:05 GMT
  */
 
 var APP_com_sky_app = (function () {
@@ -4661,16 +4661,6 @@ var APP_com_sky_app = (function () {
 
   class App extends Lightning.Application {
 
-    _handleLeft() {
-      this._setState('HandleLeftKeyClick');
-      this.handleLeft();
-    }
-
-    _handleRight() {
-      this._setState('HandleRightKeyClick');
-      this.handleRight();
-    }
-
     static _states() {
       return [
         class HandleLeftKeyClick extends this {
@@ -4697,6 +4687,22 @@ var APP_com_sky_app = (function () {
     }
 
     /**
+     * @method handleLeft
+     */
+    _handleLeft() {
+      this._setState('HandleLeftKeyClick');
+      this.handleLeft();
+    }
+
+    /**
+     * @method handleRight`
+     */
+    _handleRight() {
+      this._setState('HandleRightKeyClick');
+      this.handleRight();
+    }
+
+    /**
      * @method handleClick
      * @returns {int} elemPosX
      */
@@ -4706,7 +4712,7 @@ var APP_com_sky_app = (function () {
     }
 
     /**
-     * @method handleLeft - deals with the left arrow click
+     * @method handleLeft - deals with the left arrow key press
      */
     handleLeft() {
       let elemPosX = Math.ceil(this.handleClick() - 50);
@@ -4715,6 +4721,9 @@ var APP_com_sky_app = (function () {
       this.getLetter();
     }
 
+    /**
+     * @method handleInsert - deals with the insert key press
+     */
     _handleInsert() {
       this.lettersArray.push(this.letterSelected);
       let result = this.lettersArray.map(item => {
@@ -4724,13 +4733,17 @@ var APP_com_sky_app = (function () {
       this.tag('Choice').text.text = result;
     }
 
+    /**
+     * @method handleDelete - deals with the delete key press
+     */
     _handleDelete() {
       this.lettersArray.pop();
-      let result = this.lettersArray.map( item => { 
+      let result = this.lettersArray.map(item => {
         return item
       });
       this.tag('Choice').text.text = result;
     }
+
     /**
      * @method handleRight - deals with the right arrow click
      */
@@ -4750,10 +4763,8 @@ var APP_com_sky_app = (function () {
 
       if (this.currentXPos < 0) {
         this.currentXPos = this.currentXPos * -1;
-        console.log(this.currentXPos);
         let arrayIndex = lettersArr[this.currentXPos / 50];
         this.letterSelected = arrayIndex;
-        console.log('arrayIndex: ' + this.letterSelected);
         return this.letterSelected
       }
       else {

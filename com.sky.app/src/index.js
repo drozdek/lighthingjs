@@ -3,16 +3,6 @@ import Letter from './Letter';
 
 export default class App extends Lightning.Application {
 
-  _handleLeft() {
-    this._setState('HandleLeftKeyClick');
-    this.handleLeft();
-  }
-
-  _handleRight() {
-    this._setState('HandleRightKeyClick')
-    this.handleRight();
-  }
-
   static _states() {
     return [
       class HandleLeftKeyClick extends this {
@@ -39,6 +29,22 @@ export default class App extends Lightning.Application {
   }
 
   /**
+   * @method handleLeft
+   */
+  _handleLeft() {
+    this._setState('HandleLeftKeyClick');
+    this.handleLeft();
+  }
+
+  /**
+   * @method handleRight`
+   */
+  _handleRight() {
+    this._setState('HandleRightKeyClick')
+    this.handleRight();
+  }
+
+  /**
    * @method handleClick
    * @returns {int} elemPosX
    */
@@ -48,7 +54,7 @@ export default class App extends Lightning.Application {
   }
 
   /**
-   * @method handleLeft - deals with the left arrow click
+   * @method handleLeft - deals with the left arrow key press
    */
   handleLeft() {
     let elemPosX = Math.ceil(this.handleClick() - 50);
@@ -57,6 +63,9 @@ export default class App extends Lightning.Application {
     this.getLetter();
   }
 
+  /**
+   * @method handleInsert - deals with the insert key press
+   */
   _handleInsert() {
     this.lettersArray.push(this.letterSelected);
     let result = this.lettersArray.map(item => {
@@ -66,13 +75,17 @@ export default class App extends Lightning.Application {
     this.tag('Choice').text.text = result
   }
 
+  /**
+   * @method handleDelete - deals with the delete key press
+   */
   _handleDelete() {
     this.lettersArray.pop();
-    let result = this.lettersArray.map( item => { 
+    let result = this.lettersArray.map(item => {
       return item
     });
     this.tag('Choice').text.text = result
   }
+
   /**
    * @method handleRight - deals with the right arrow click
    */
@@ -92,10 +105,8 @@ export default class App extends Lightning.Application {
 
     if (this.currentXPos < 0) {
       this.currentXPos = this.currentXPos * -1;
-      console.log(this.currentXPos);
       let arrayIndex = lettersArr[this.currentXPos / 50];
       this.letterSelected = arrayIndex;
-      console.log('arrayIndex: ' + this.letterSelected);
       return this.letterSelected
     }
     else {
