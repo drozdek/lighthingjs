@@ -3,7 +3,7 @@
  * SDK version: 4.0.0
  * CLI version: 2.3.4
  * 
- * Generated: Thu, 28 Jan 2021 14:29:19 GMT
+ * Generated: Sun, 31 Jan 2021 15:47:03 GMT
  */
 
 var APP_com_sky_app = (function () {
@@ -30,12 +30,6 @@ var APP_com_sky_app = (function () {
 
   const settings = {};
   const subscribers = {};
-
-  const initSettings = (appSettings, platformSettings) => {
-    settings['app'] = appSettings;
-    settings['platform'] = platformSettings;
-    settings['user'] = {};
-  };
 
   const publish = (key, value) => {
     subscribers[key] && subscribers[key].forEach(subscriber => subscriber(value));
@@ -153,10 +147,6 @@ var APP_com_sky_app = (function () {
 
   let sendMetric = (type, event, params) => {
     Log.info('Sending metric', type, event, params);
-  };
-
-  const initMetrics = config => {
-    sendMetric = config.sendMetric;
   };
 
   // available metric per category
@@ -371,129 +361,6 @@ var APP_com_sky_app = (function () {
    * limitations under the License.
    */
 
-  let basePath;
-  let proxyUrl;
-
-  const initUtils = config => {
-    basePath = ensureUrlWithProtocol(makeFullStaticPath(window.location.pathname, config.path || '/'));
-
-    if (config.proxyUrl) {
-      proxyUrl = ensureUrlWithProtocol(config.proxyUrl);
-    }
-  };
-
-  var Utils = {
-    asset(relPath) {
-      return basePath + relPath
-    },
-    proxyUrl(url, options = {}) {
-      return proxyUrl ? proxyUrl + '?' + makeQueryString(url, options) : url
-    },
-    makeQueryString() {
-      return makeQueryString(...arguments)
-    },
-    // since imageworkers don't work without protocol
-    ensureUrlWithProtocol() {
-      return ensureUrlWithProtocol(...arguments)
-    },
-  };
-
-  const ensureUrlWithProtocol = url => {
-    if (/^\/\//.test(url)) {
-      return window.location.protocol + url
-    }
-    if (!/^(?:https?:)/i.test(url)) {
-      return window.location.origin + url
-    }
-    return url
-  };
-
-  const makeFullStaticPath = (pathname = '/', path) => {
-    // ensure path has traling slash
-    path = path.charAt(path.length - 1) !== '/' ? path + '/' : path;
-
-    // if path is URL, we assume it's already the full static path, so we just return it
-    if (/^(?:https?:)?(?:\/\/)/.test(path)) {
-      return path
-    }
-
-    if (path.charAt(0) === '/') {
-      return path
-    } else {
-      // cleanup the pathname (i.e. remove possible index.html)
-      pathname = cleanUpPathName(pathname);
-
-      // remove possible leading dot from path
-      path = path.charAt(0) === '.' ? path.substr(1) : path;
-      // ensure path has leading slash
-      path = path.charAt(0) !== '/' ? '/' + path : path;
-      return pathname + path
-    }
-  };
-
-  const cleanUpPathName = pathname => {
-    if (pathname.slice(-1) === '/') return pathname.slice(0, -1)
-    const parts = pathname.split('/');
-    if (parts[parts.length - 1].indexOf('.') > -1) parts.pop();
-    return parts.join('/')
-  };
-
-  const makeQueryString = (url, options = {}, type = 'url') => {
-    // add operator as an option
-    options.operator = 'metrological'; // Todo: make this configurable (via url?)
-    // add type (= url or qr) as an option, with url as the value
-    options[type] = url;
-
-    return Object.keys(options)
-      .map(key => {
-        return encodeURIComponent(key) + '=' + encodeURIComponent('' + options[key])
-      })
-      .join('&')
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 RDK Management
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  const initProfile = config => {
-    config.getInfo;
-    config.setInfo;
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 RDK Management
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
   var Lightning = window.lng;
 
   /*
@@ -531,12 +398,6 @@ var APP_com_sky_app = (function () {
   ];
 
   let mediaUrl = url => url;
-
-  const initMediaPlayer = config => {
-    if (config.mediaUrl) {
-      mediaUrl = config.mediaUrl;
-    }
-  };
 
   class Mediaplayer extends Lightning.Component {
     _construct() {
@@ -1027,33 +888,6 @@ var APP_com_sky_app = (function () {
       ]
     }
   }
-
-  class localCookie{constructor(e){return e=e||{},this.forceCookies=e.forceCookies||!1,!0===this._checkIfLocalStorageWorks()&&!0!==e.forceCookies?{getItem:this._getItemLocalStorage,setItem:this._setItemLocalStorage,removeItem:this._removeItemLocalStorage,clear:this._clearLocalStorage}:{getItem:this._getItemCookie,setItem:this._setItemCookie,removeItem:this._removeItemCookie,clear:this._clearCookies}}_checkIfLocalStorageWorks(){if("undefined"==typeof localStorage)return !1;try{return localStorage.setItem("feature_test","yes"),"yes"===localStorage.getItem("feature_test")&&(localStorage.removeItem("feature_test"),!0)}catch(e){return !1}}_getItemLocalStorage(e){return window.localStorage.getItem(e)}_setItemLocalStorage(e,t){return window.localStorage.setItem(e,t)}_removeItemLocalStorage(e){return window.localStorage.removeItem(e)}_clearLocalStorage(){return window.localStorage.clear()}_getItemCookie(e){var t=document.cookie.match(RegExp("(?:^|;\\s*)"+function(e){return e.replace(/([.*+?\^${}()|\[\]\/\\])/g,"\\$1")}(e)+"=([^;]*)"));return t&&""===t[1]&&(t[1]=null),t?t[1]:null}_setItemCookie(e,t){var o=new Date,r=new Date(o.getTime()+15768e7);document.cookie=`${e}=${t}; expires=${r.toUTCString()};`;}_removeItemCookie(e){document.cookie=`${e}=;Max-Age=-99999999;`;}_clearCookies(){document.cookie.split(";").forEach(e=>{document.cookie=e.replace(/^ +/,"").replace(/=.*/,"=;expires=Max-Age=-99999999");});}}
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 RDK Management
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  const initStorage = () => {
-    Settings.get('platform', 'id');
-    // todo: pass options (for example to force the use of cookies)
-    new localCookie();
-  };
 
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
@@ -1928,265 +1762,6 @@ var APP_com_sky_app = (function () {
     }
   };
 
-  var isMergeableObject = function isMergeableObject(value) {
-  	return isNonNullObject(value)
-  		&& !isSpecial(value)
-  };
-
-  function isNonNullObject(value) {
-  	return !!value && typeof value === 'object'
-  }
-
-  function isSpecial(value) {
-  	var stringValue = Object.prototype.toString.call(value);
-
-  	return stringValue === '[object RegExp]'
-  		|| stringValue === '[object Date]'
-  		|| isReactElement(value)
-  }
-
-  // see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
-  var canUseSymbol = typeof Symbol === 'function' && Symbol.for;
-  var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for('react.element') : 0xeac7;
-
-  function isReactElement(value) {
-  	return value.$$typeof === REACT_ELEMENT_TYPE
-  }
-
-  function emptyTarget(val) {
-  	return Array.isArray(val) ? [] : {}
-  }
-
-  function cloneUnlessOtherwiseSpecified(value, options) {
-  	return (options.clone !== false && options.isMergeableObject(value))
-  		? deepmerge(emptyTarget(value), value, options)
-  		: value
-  }
-
-  function defaultArrayMerge(target, source, options) {
-  	return target.concat(source).map(function(element) {
-  		return cloneUnlessOtherwiseSpecified(element, options)
-  	})
-  }
-
-  function getMergeFunction(key, options) {
-  	if (!options.customMerge) {
-  		return deepmerge
-  	}
-  	var customMerge = options.customMerge(key);
-  	return typeof customMerge === 'function' ? customMerge : deepmerge
-  }
-
-  function getEnumerableOwnPropertySymbols(target) {
-  	return Object.getOwnPropertySymbols
-  		? Object.getOwnPropertySymbols(target).filter(function(symbol) {
-  			return target.propertyIsEnumerable(symbol)
-  		})
-  		: []
-  }
-
-  function getKeys(target) {
-  	return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target))
-  }
-
-  function propertyIsOnObject(object, property) {
-  	try {
-  		return property in object
-  	} catch(_) {
-  		return false
-  	}
-  }
-
-  // Protects from prototype poisoning and unexpected merging up the prototype chain.
-  function propertyIsUnsafe(target, key) {
-  	return propertyIsOnObject(target, key) // Properties are safe to merge if they don't exist in the target yet,
-  		&& !(Object.hasOwnProperty.call(target, key) // unsafe if they exist up the prototype chain,
-  			&& Object.propertyIsEnumerable.call(target, key)) // and also unsafe if they're nonenumerable.
-  }
-
-  function mergeObject(target, source, options) {
-  	var destination = {};
-  	if (options.isMergeableObject(target)) {
-  		getKeys(target).forEach(function(key) {
-  			destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
-  		});
-  	}
-  	getKeys(source).forEach(function(key) {
-  		if (propertyIsUnsafe(target, key)) {
-  			return
-  		}
-
-  		if (propertyIsOnObject(target, key) && options.isMergeableObject(source[key])) {
-  			destination[key] = getMergeFunction(key, options)(target[key], source[key], options);
-  		} else {
-  			destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
-  		}
-  	});
-  	return destination
-  }
-
-  function deepmerge(target, source, options) {
-  	options = options || {};
-  	options.arrayMerge = options.arrayMerge || defaultArrayMerge;
-  	options.isMergeableObject = options.isMergeableObject || isMergeableObject;
-  	// cloneUnlessOtherwiseSpecified is added to `options` so that custom arrayMerge()
-  	// implementations can use it. The caller may not replace it.
-  	options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
-
-  	var sourceIsArray = Array.isArray(source);
-  	var targetIsArray = Array.isArray(target);
-  	var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
-
-  	if (!sourceAndTargetTypesMatch) {
-  		return cloneUnlessOtherwiseSpecified(source, options)
-  	} else if (sourceIsArray) {
-  		return options.arrayMerge(target, source, options)
-  	} else {
-  		return mergeObject(target, source, options)
-  	}
-  }
-
-  deepmerge.all = function deepmergeAll(array, options) {
-  	if (!Array.isArray(array)) {
-  		throw new Error('first argument should be an array')
-  	}
-
-  	return array.reduce(function(prev, next) {
-  		return deepmerge(prev, next, options)
-  	}, {})
-  };
-
-  var deepmerge_1 = deepmerge;
-
-  var cjs = deepmerge_1;
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 RDK Management
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  let warned = false;
-  const deprecated = (force = false) => {
-    if (force === true || warned === false) {
-      console.warn(
-        [
-          "The 'Locale'-plugin in the Lightning-SDK is deprecated and will be removed in future releases.",
-          "Please consider using the new 'Language'-plugin instead.",
-          'https://rdkcentral.github.io/Lightning-SDK/#/plugins/language',
-        ].join('\n\n')
-      );
-    }
-    warned = true;
-  };
-  class Locale {
-    constructor() {
-      this.__enabled = false;
-    }
-
-    /**
-     * Loads translation object from external json file.
-     *
-     * @param {String} path Path to resource.
-     * @return {Promise}
-     */
-    async load(path) {
-      if (!this.__enabled) {
-        return
-      }
-
-      await fetch(path)
-        .then(resp => resp.json())
-        .then(resp => {
-          this.loadFromObject(resp);
-        });
-    }
-
-    /**
-     * Sets language used by module.
-     *
-     * @param {String} lang
-     */
-    setLanguage(lang) {
-      deprecated();
-      this.__enabled = true;
-      this.language = lang;
-    }
-
-    /**
-     * Returns reference to translation object for current language.
-     *
-     * @return {Object}
-     */
-    get tr() {
-      deprecated(true);
-      return this.__trObj[this.language]
-    }
-
-    /**
-     * Loads translation object from existing object (binds existing object).
-     *
-     * @param {Object} trObj
-     */
-    loadFromObject(trObj) {
-      deprecated();
-      const fallbackLanguage = 'en';
-      if (Object.keys(trObj).indexOf(this.language) === -1) {
-        Log.warn('No translations found for: ' + this.language);
-        if (Object.keys(trObj).indexOf(fallbackLanguage) > -1) {
-          Log.warn('Using fallback language: ' + fallbackLanguage);
-          this.language = fallbackLanguage;
-        } else {
-          const error = 'No translations found for fallback language: ' + fallbackLanguage;
-          Log.error(error);
-          throw Error(error)
-        }
-      }
-
-      this.__trObj = trObj;
-      for (const lang of Object.values(this.__trObj)) {
-        for (const str of Object.keys(lang)) {
-          lang[str] = new LocalizedString(lang[str]);
-        }
-      }
-    }
-  }
-
-  /**
-   * Extended string class used for localization.
-   */
-  class LocalizedString extends String {
-    /**
-     * Returns formatted LocalizedString.
-     * Replaces each placeholder value (e.g. {0}, {1}) with corresponding argument.
-     *
-     * E.g.:
-     * > new LocalizedString('{0} and {1} and {0}').format('A', 'B');
-     * A and B and A
-     *
-     * @param  {...any} args List of arguments for placeholders.
-     */
-    format(...args) {
-      const sub = args.reduce((string, arg, index) => string.split(`{${index}}`).join(arg), this);
-      return new LocalizedString(sub)
-    }
-  }
-
-  var Locale$1 = new Locale();
-
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
    * following copyright and licenses apply:
@@ -2359,285 +1934,6 @@ var APP_com_sky_app = (function () {
    * limitations under the License.
    */
 
-  let meta = {};
-  let translations = {};
-  let language = null;
-
-  const initLanguage = (file, language = null) => {
-    return new Promise((resolve, reject) => {
-      fetch(file)
-        .then(response => response.json())
-        .then(json => {
-          setTranslations(json);
-          // set language (directly or in a promise)
-          typeof language === 'object' && 'then' in language && typeof language.then === 'function'
-            ? language
-                .then(lang =>
-                  setLanguage(lang)
-                    .then(resolve)
-                    .catch(reject)
-                )
-                .catch(e => {
-                  Log.error(e);
-                  reject(e);
-                })
-            : setLanguage(language)
-                .then(resolve)
-                .catch(reject);
-        })
-        .catch(() => {
-          const error = 'Language file ' + file + ' not found';
-          Log.error(error);
-          reject(error);
-        });
-    })
-  };
-
-  const setTranslations = obj => {
-    if ('meta' in obj) {
-      meta = { ...obj.meta };
-      delete obj.meta;
-    }
-    translations = obj;
-  };
-
-  const setLanguage = lng => {
-    language = null;
-
-    return new Promise((resolve, reject) => {
-      if (lng in translations) {
-        language = lng;
-      } else {
-        if ('map' in meta && lng in meta.map && meta.map[lng] in translations) {
-          language = meta.map[lng];
-        } else if ('default' in meta && meta.default in translations) {
-          language = meta.default;
-          const error =
-            'Translations for Language ' +
-            language +
-            ' not found. Using default language ' +
-            meta.default;
-          Log.warn(error);
-          reject(error);
-        } else {
-          const error = 'Translations for Language ' + language + ' not found.';
-          Log.error(error);
-          reject(error);
-        }
-      }
-
-      if (language) {
-        Log.info('Setting language to', language);
-
-        const translationsObj = translations[language];
-        if (typeof translationsObj === 'object') {
-          resolve();
-        } else if (typeof translationsObj === 'string') {
-          const url = Utils.asset(translationsObj);
-
-          fetch(url)
-            .then(response => response.json())
-            .then(json => {
-              // save the translations for this language (to prevent loading twice)
-              translations[language] = json;
-              resolve();
-            })
-            .catch(e => {
-              const error = 'Error while fetching ' + url;
-              Log.error(error, e);
-              reject(error);
-            });
-        }
-      }
-    })
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 RDK Management
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  const registry = {
-    eventListeners: [],
-    timeouts: [],
-    intervals: [],
-    targets: [],
-  };
-
-  var Registry = {
-    // Timeouts
-    setTimeout(cb, timeout, ...params) {
-      const timeoutId = setTimeout(
-        () => {
-          registry.timeouts = registry.timeouts.filter(id => id !== timeoutId);
-          cb.apply(null, params);
-        },
-        timeout,
-        params
-      );
-      Log.info('Set Timeout', 'ID: ' + timeoutId);
-      registry.timeouts.push(timeoutId);
-      return timeoutId
-    },
-
-    clearTimeout(timeoutId) {
-      if (registry.timeouts.indexOf(timeoutId) > -1) {
-        registry.timeouts = registry.timeouts.filter(id => id !== timeoutId);
-        Log.info('Clear Timeout', 'ID: ' + timeoutId);
-        clearTimeout(timeoutId);
-      } else {
-        Log.error('Clear Timeout', 'ID ' + timeoutId + ' not found');
-      }
-    },
-
-    clearTimeouts() {
-      registry.timeouts.forEach(timeoutId => {
-        this.clearTimeout(timeoutId);
-      });
-    },
-
-    // Intervals
-    setInterval(cb, interval, ...params) {
-      const intervalId = setInterval(
-        () => {
-          registry.intervals = registry.intervals.filter(id => id !== intervalId);
-          cb.apply(null, params);
-        },
-        interval,
-        params
-      );
-      Log.info('Set Interval', 'ID: ' + intervalId);
-      registry.intervals.push(intervalId);
-      return intervalId
-    },
-
-    clearInterval(intervalId) {
-      if (registry.intervals.indexOf(intervalId) > -1) {
-        registry.intervals = registry.intervals.filter(id => id !== intervalId);
-        Log.info('Clear Interval', 'ID: ' + intervalId);
-        clearInterval(intervalId);
-      } else {
-        Log.error('Clear Interval', 'ID ' + intervalId + ' not found');
-      }
-    },
-
-    clearIntervals() {
-      registry.intervals.forEach(intervalId => {
-        this.clearInterval(intervalId);
-      });
-    },
-
-    // Event listeners
-    addEventListener(target, event, handler) {
-      target.addEventListener(event, handler);
-      let targetIndex =
-        registry.targets.indexOf(target) > -1
-          ? registry.targets.indexOf(target)
-          : registry.targets.push(target) - 1;
-
-      registry.eventListeners[targetIndex] = registry.eventListeners[targetIndex] || {};
-      registry.eventListeners[targetIndex][event] = registry.eventListeners[targetIndex][event] || [];
-      registry.eventListeners[targetIndex][event].push(handler);
-      Log.info('Add eventListener', 'Target:', target, 'Event: ' + event, 'Handler:', handler);
-    },
-
-    removeEventListener(target, event, handler) {
-      const targetIndex = registry.targets.indexOf(target);
-      if (
-        targetIndex > -1 &&
-        registry.eventListeners[targetIndex] &&
-        registry.eventListeners[targetIndex][event] &&
-        registry.eventListeners[targetIndex][event].indexOf(handler) > -1
-      ) {
-        registry.eventListeners[targetIndex][event] = registry.eventListeners[targetIndex][
-          event
-        ].filter(fn => fn !== handler);
-        Log.info('Remove eventListener', 'Target:', target, 'Event: ' + event, 'Handler:', handler);
-        target.removeEventListener(event, handler);
-      } else {
-        Log.error(
-          'Remove eventListener',
-          'Not found',
-          'Target',
-          target,
-          'Event: ' + event,
-          'Handler',
-          handler
-        );
-      }
-    },
-
-    // if `event` is omitted, removes all registered event listeners for target
-    // if `target` is also omitted, removes all registered event listeners
-    removeEventListeners(target, event) {
-      if (target && event) {
-        const targetIndex = registry.targets.indexOf(target);
-        if (targetIndex > -1) {
-          registry.eventListeners[targetIndex][event].forEach(handler => {
-            this.removeEventListener(target, event, handler);
-          });
-        }
-      } else if (target) {
-        const targetIndex = registry.targets.indexOf(target);
-        if (targetIndex > -1) {
-          Object.keys(registry.eventListeners[targetIndex]).forEach(_event => {
-            this.removeEventListeners(target, _event);
-          });
-        }
-      } else {
-        Object.keys(registry.eventListeners).forEach(targetIndex => {
-          this.removeEventListeners(registry.targets[targetIndex]);
-        });
-      }
-    },
-
-    // Clear everything (to be called upon app close for proper cleanup)
-    clear() {
-      this.clearTimeouts();
-      this.clearIntervals();
-      this.removeEventListeners();
-      registry.eventListeners = [];
-      registry.timeouts = [];
-      registry.intervals = [];
-      registry.targets = [];
-    },
-  };
-
-  var version = "4.0.0";
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 RDK Management
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
   let AppInstance;
 
   const defaultOptions = {
@@ -2665,135 +1961,6 @@ var APP_com_sky_app = (function () {
     defaultOptions.stage['w'] = 1280;
     defaultOptions.stage['h'] = 720;
     defaultOptions.stage['precision'] = 0.6666666667;
-  }
-
-  function Application(App, appData, platformSettings) {
-    return class Application extends Lightning.Application {
-      constructor(options) {
-        const config = cjs(defaultOptions, options);
-        super(config);
-        this.config = config;
-      }
-
-      static _template() {
-        return {
-          w: 1920,
-          h: 1080,
-        }
-      }
-
-      _setup() {
-        Promise.all([
-          this.loadFonts((App.config && App.config.fonts) || (App.getFonts && App.getFonts()) || []),
-          // to be deprecated
-          Locale$1.load((App.config && App.config.locale) || (App.getLocale && App.getLocale())),
-          App.language && this.loadLanguage(App.language()),
-        ])
-          .then(() => {
-            Metrics$1.app.loaded();
-
-            AppInstance = this.stage.c({
-              ref: 'App',
-              type: App,
-              zIndex: 1,
-              forceZIndexContext: !!platformSettings.showVersion || !!platformSettings.showFps,
-            });
-
-            this.childList.a(AppInstance);
-
-            Log.info('App version', this.config.version);
-            Log.info('SDK version', version);
-
-            if (platformSettings.showVersion) {
-              this.childList.a({
-                ref: 'VersionLabel',
-                type: VersionLabel,
-                version: this.config.version,
-                sdkVersion: version,
-                zIndex: 1,
-              });
-            }
-
-            if (platformSettings.showFps) {
-              this.childList.a({
-                ref: 'FpsCounter',
-                type: FpsIndicator,
-                zIndex: 1,
-              });
-            }
-
-            super._setup();
-          })
-          .catch(console.error);
-      }
-
-      _handleBack() {
-        this.closeApp();
-      }
-
-      _handleExit() {
-        this.closeApp();
-      }
-
-      closeApp() {
-        Log.info('Closing App');
-
-        Settings.clearSubscribers();
-        Registry.clear();
-
-        if (platformSettings.onClose && typeof platformSettings.onClose === 'function') {
-          platformSettings.onClose(...arguments);
-        } else {
-          this.close();
-        }
-      }
-
-      close() {
-        Log.info('Closing App');
-        this.childList.remove(this.tag('App'));
-
-        // force texture garbage collect
-        this.stage.gc();
-        this.destroy();
-      }
-
-      loadFonts(fonts) {
-        return new Promise((resolve, reject) => {
-          fonts
-            .map(({ family, url, descriptors }) => () => {
-              const fontFace = new FontFace(family, 'url(' + url + ')', descriptors || {});
-              document.fonts.add(fontFace);
-              return fontFace.load()
-            })
-            .reduce((promise, method) => {
-              return promise.then(() => method())
-            }, Promise.resolve(null))
-            .then(resolve)
-            .catch(reject);
-        })
-      }
-
-      loadLanguage(config) {
-        let file = Utils.asset('translations.json');
-        let language = config;
-
-        if (typeof language === 'object') {
-          language = config.language || null;
-          file = config.file || file;
-        }
-
-        return initLanguage(file, language)
-      }
-
-      set focus(v) {
-        this._focussed = v;
-        this._refocus();
-      }
-
-      _getFocused() {
-        return this._focussed || this.tag('App')
-      }
-    }
   }
 
   /*
@@ -4189,20 +3356,6 @@ var APP_com_sky_app = (function () {
   };
 
   /**
-   * This can be called from the platform / bootstrapper to override
-   * the default getting and setting of the hash
-   * @param config
-   */
-  const initRouter = config => {
-    if (config.getHash) {
-      getHash = config.getHash;
-    }
-    if (config.setHash) {
-      setHash = config.setHash;
-    }
-  };
-
-  /**
    * On hash change we start processing
    */
   window.addEventListener('hashchange', async () => {
@@ -4277,7 +3430,7 @@ var APP_com_sky_app = (function () {
    * limitations under the License.
    */
 
-  const defaultChannels = [
+  [
     {
       number: 1,
       name: 'Metro News 1',
@@ -4319,95 +3472,6 @@ var APP_com_sky_app = (function () {
     },
   ];
 
-  const channels = () => Settings.get('platform', 'tv', defaultChannels);
-
-  const randomChannel = () => channels()[~~(channels.length * Math.random())];
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 RDK Management
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  let currentChannel;
-  const callbacks = {};
-
-  const emit$1 = (event, ...args) => {
-    callbacks[event] &&
-      callbacks[event].forEach(cb => {
-        cb.apply(null, args);
-      });
-  };
-
-  // local mock methods
-  let methods = {
-    getChannel() {
-      if (!currentChannel) currentChannel = randomChannel();
-      return new Promise((resolve, reject) => {
-        if (currentChannel) {
-          const channel = { ...currentChannel };
-          delete channel.program;
-          resolve(channel);
-        } else {
-          reject('No channel found');
-        }
-      })
-    },
-    getProgram() {
-      if (!currentChannel) currentChannel = randomChannel();
-      return new Promise((resolve, reject) => {
-        currentChannel.program ? resolve(currentChannel.program) : reject('No program found');
-      })
-    },
-    setChannel(number) {
-      return new Promise((resolve, reject) => {
-        if (number) {
-          const newChannel = channels().find(c => c.number === number);
-          if (newChannel) {
-            currentChannel = newChannel;
-            const channel = { ...currentChannel };
-            delete channel.program;
-            emit$1('channelChange', channel);
-            resolve(channel);
-          } else {
-            reject('Channel not found');
-          }
-        } else {
-          reject('No channel number supplied');
-        }
-      })
-    },
-  };
-
-  const initTV = config => {
-    methods = {};
-    if (config.getChannel && typeof config.getChannel === 'function') {
-      methods.getChannel = config.getChannel;
-    }
-    if (config.getProgram && typeof config.getProgram === 'function') {
-      methods.getProgram = config.getProgram;
-    }
-    if (config.setChannel && typeof config.setChannel === 'function') {
-      methods.setChannel = config.setChannel;
-    }
-    if (config.emit && typeof config.emit === 'function') {
-      config.emit(emit$1);
-    }
-  };
-
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
    * following copyright and licenses apply:
@@ -4428,28 +3492,6 @@ var APP_com_sky_app = (function () {
    */
 
   let ApplicationInstance;
-
-  var Launch = (App, appSettings, platformSettings, appData) => {
-    initSettings(appSettings, platformSettings);
-
-    initUtils(platformSettings);
-    initStorage();
-
-    // Initialize plugins
-    if (platformSettings.plugins) {
-      platformSettings.plugins.profile && initProfile(platformSettings.plugins.profile);
-      platformSettings.plugins.metrics && initMetrics(platformSettings.plugins.metrics);
-      platformSettings.plugins.mediaPlayer && initMediaPlayer(platformSettings.plugins.mediaPlayer);
-      platformSettings.plugins.mediaPlayer && initVideoPlayer(platformSettings.plugins.mediaPlayer);
-      platformSettings.plugins.ads && initAds(platformSettings.plugins.ads);
-      platformSettings.plugins.router && initRouter(platformSettings.plugins.router);
-      platformSettings.plugins.tv && initTV(platformSettings.plugins.tv);
-    }
-
-    const app = Application(App, appData, platformSettings);
-    ApplicationInstance = new app(appSettings);
-    return ApplicationInstance
-  };
 
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
@@ -4643,12 +3685,6 @@ var APP_com_sky_app = (function () {
   let consumer;
   let precision = 1;
   let textureMode = false;
-
-  const initVideoPlayer = config => {
-    if (config.mediaUrl) {
-      mediaUrl$1 = config.mediaUrl;
-    }
-  };
 
   // todo: add this in a 'Registry' plugin
   // to be able to always clean this up on app close
@@ -5022,9 +4058,7 @@ var APP_com_sky_app = (function () {
 
   autoSetupMixin(videoPlayerPlugin, () => {
     precision =
-      (ApplicationInstance &&
-        ApplicationInstance.stage &&
-        ApplicationInstance.stage.getRenderPrecision()) ||
+      
       precision;
 
     videoEl = setupVideoTag();
@@ -5063,12 +4097,6 @@ var APP_com_sky_app = (function () {
       midrolls: [],
       postrolls: [],
     })
-  };
-
-  const initAds = config => {
-    if (config.getAds) {
-      getAds = config.getAds;
-    }
   };
 
   const state$1 = {
@@ -5229,7 +4257,7 @@ var APP_com_sky_app = (function () {
 
       return new Promise(resolve => {
         Log.info('Ad', 'Starting session');
-        getAds(config).then(ads => {
+        getAds().then(ads => {
           Log.info('Ad', 'API result', ads);
           resolve({
             prerolls() {
@@ -5614,186 +4642,242 @@ var APP_com_sky_app = (function () {
 
   class Letter extends Lightning.Component {
 
-    constructor(letter){
-      super();
-      this.letter = letter;
+    _init() {
+      this.tag('LetterMain').patch({ color: this.color, text: { text: this.buttonText, color: this.textColor, textAlign: this.textAlign } });
     }
 
     static _template() {
-      return {      
-        y: 50,
-        x: 50,
+      return {
         Text: {
-          text: {
-            text: 'Letter',
-            textColor: 0xffff00ff,
-            textAlign: 'left',
-            fontSize: 30
+          LetterMain: {
+            rect: true, w: 50, h: 50, color: '', x: '', y: '', text: {
+              text: '', color: '', textAlign: '', fontSize: 30
+            }
           }
         }
       }
     }
   }
 
-
-  // const options = {stage: {w: window.innerWidth, h: window.innerHeight, useImageWorker: false}};
-  // const app = new SkyApp(options);
-  // document.body.appendChild(app.stage.getCanvas());
-
-  class App extends Lightning.Component {
-
-    _construct() {
-    }
+  class App extends Lightning.Application {
 
     _handleLeft() {
-      this._setState('shiftLeft');
-
+      this._setState('HandleLeftKeyClick');
+      this.handleLeft();
     }
+
     _handleRight() {
-      this._setState('shiftRight');
+      this._setState('HandleRightKeyClick');
+      this.handleRight();
     }
 
+    static _states() {
+      return [
+        class HandleLeftKeyClick extends this {
+          _getFocused() {
+            return this.tag('HandleLeftKeyClick');
+          }
+        },
+
+        class HandleRightKeyClick extends this {
+          _getFocused(event) {
+            return this.tag('HandleRightKeyClick');
+          }
+        },
+      ]
+    }
+
+    /**
+     * @method _init
+     */
     _init() {
+      this.lettersArray = [];
       console.clear();
       console.log('Starting Sky App...');
     }
 
-    static _template() {
-      this.y = 50;
+    /**
+     * @method handleClick
+     * @returns {int} elemPosX
+     */
+    handleClick() {
+      let elemPosX = this.tag('LetterList').getSmooth('x');
+      return elemPosX
+    }
 
+    /**
+     * @method handleLeft - deals with the left arrow click
+     */
+    handleLeft() {
+      let elemPosX = Math.ceil(this.handleClick() - 50);
+      this.tag('LetterList').setSmooth("x", elemPosX);
+      this.currentXPos = elemPosX;
+      this.getLetter();
+    }
+
+    _handleInsert() {
+      this.lettersArray.push(this.letterSelected);
+      let result = this.lettersArray.map(item => {
+        return item
+      });
+      console.log(this.lettersArray);
+      this.tag('Choice').text.text = result;
+    }
+
+    _handleDelete() {
+      this.lettersArray.pop();
+      let result = this.lettersArray.map( item => { 
+        return item
+      });
+      this.tag('Choice').text.text = result;
+    }
+    /**
+     * @method handleRight - deals with the right arrow click
+     */
+    handleRight() {
+      let elemPosX = Math.ceil(this.handleClick() + 50);
+      this.tag('LetterList').setSmooth("x", elemPosX);
+      this.currentXPos = elemPosX;
+      this.getLetter();
+    }
+
+    /**
+     * @method getLetter - gets letter on the left arrow click
+     * @returns {string} this.letterSelected
+     */
+    getLetter() {
+      const lettersArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+      if (this.currentXPos < 0) {
+        this.currentXPos = this.currentXPos * -1;
+        console.log(this.currentXPos);
+        let arrayIndex = lettersArr[this.currentXPos / 50];
+        this.letterSelected = arrayIndex;
+        console.log('arrayIndex: ' + this.letterSelected);
+        return this.letterSelected
+      }
+      else {
+        // prevent from overscrolling 
+        this.tag('LetterList').setSmooth("x", 0);
+      }
+
+    }
+
+    static _template() {
+      this.y = 120;
+      this.color = 0xff005500;
+      this.textColor = 0xaaaaaaaa;
+      this.textAlign = 'center';
+      this.letterSelected = "";
+      this.letterArray = [];
       return {
-        Content: {
-          Header: {
-            y: 20,
-            text: {
-              text: 'Press an arrow key to select a letter...',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'left',
-              fontSize: 30
-            }
-          },
+        Header: {
+          y: 20, text: { text: 'Press an arrow key to select a letter...', textColor: 0xaa000000, textAlign: 'left', fontSize: 30 }
+        },
+        SelectionBox: {
+          y: this.y, x: 0, w: 50, h: 50, rect: true, colorTop: 0x4d636EFB, colorBottom: 0x4d1C27bC, zIndex: 1
+        },
+        LetterList: {
           A: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            x: 10,
-            y: this.y,
-            text: {
-              text: 'a',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
+            type: Letter, buttonText: 'a', color: this.textColor, textAlign: this.textAlign, x: 0, y: 120
           },
           B: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            border: true,
-            x: 60,
-            y: this.y,
-            text: {
-              text: 'b',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
+            type: Letter, buttonText: 'b', color: this.textColor, textAlign: this.textAlign, x: 50, y: this.y
           },
           C: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            x: 110,
-            y: this.y,
-            text: {
-              text: 'c',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
+            type: Letter, buttonText: 'c', color: this.textColor, textAlign: this.textAlign, x: 100, y: this.y
           },
           D: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            x: 160,
-            y: this.y,
-            text: {
-              text: 'd',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
+            type: Letter, buttonText: 'd', color: this.textColor, textAlign: this.textAlign, x: 150, y: this.y
           },
           E: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            x: 210,
-            y: this.y,
-            text: {
-              text: 'e',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
+            type: Letter, buttonText: 'e', color: this.textColor, textAlign: this.textAlign, x: 200, y: this.y
           },
           F: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            x: 260,
-            y: this.y,
-            text: {
-              text: 'f',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
+            type: Letter, buttonText: 'f', color: this.textColor, textAlign: this.textAlign, x: 250, y: this.y
           },
           G: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            x: 310,
-            y: this.y,
-            text: {
-              text: 'g',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
+            type: Letter, buttonText: 'g', color: this.textColor, textAlign: this.textAlign, x: 300, y: this.y
           },
           H: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            x: 360,
-            y: this.y,
-            text: {
-              text: 'h',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
+            type: Letter, buttonText: 'h', color: this.textColor, textAlign: this.textAlign, x: 350, y: this.y
           },
           I: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            x: 410,
-            y: this.y,
-            text: {
-              text: 'i',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
+            type: Letter, buttonText: 'i', color: this.textColor, textAlign: this.textAlign, x: 400, y: this.y
           },
           J: {
-            rect: true, w: 50, h: 50, color: 0xff005500,
-            x: 460,
-            y: this.y,
-            text: {
-              text: 'j',
-              textColor: 0xaaaaaaaa,
-              textAlign: 'center',
-              fontSize: 30
-            }
-          },                                                        
+            type: Letter, buttonText: 'j', color: this.textColor, textAlign: this.textAlign, x: 450, y: this.y
+          },
+          K: {
+            type: Letter, buttonText: 'k', color: this.textColor, textAlign: this.textAlign, x: 500, y: this.y
+          },
+          L: {
+            type: Letter, buttonText: 'l', color: this.textColor, textAlign: this.textAlign, x: 550, y: this.y
+          },
+          M: {
+            type: Letter, buttonText: 'm', color: this.textColor, textAlign: this.textAlign, x: 600, y: this.y
+          },
+          N: {
+            type: Letter, buttonText: 'n', color: this.textColor, textAlign: this.textAlign, x: 650, y: this.y
+          },
+          O: {
+            type: Letter, buttonText: 'o', color: this.textColor, textAlign: this.textAlign, x: 700, y: this.y
+          },
+          P: {
+            type: Letter, buttonText: 'p', color: this.textColor, textAlign: this.textAlign, x: 750, y: this.y
+          },
+          Q: {
+            type: Letter, buttonText: 'q', color: this.textColor, textAlign: this.textAlign, x: 800, y: this.y
+          },
+          R: {
+            type: Letter, buttonText: 'r', color: this.textColor, textAlign: this.textAlign, x: 850, y: this.y
+          },
+          S: {
+            type: Letter, buttonText: 's', color: this.textColor, textAlign: this.textAlign, x: 900, y: this.y
+          },
+          T: {
+            type: Letter, buttonText: 't', color: this.textColor, textAlign: this.textAlign, x: 950, y: this.y
+          },
+          U: {
+            type: Letter, buttonText: 'u', color: this.textColor, textAlign: this.textAlign, x: 1000, y: this.y
+          },
+          V: {
+            type: Letter, buttonText: 'v', color: this.textColor, textAlign: this.textAlign, x: 1050, y: this.y
+          },
+          W: {
+            type: Letter, buttonText: 'w', color: this.textColor, textAlign: this.textAlign, x: 1100, y: this.y
+          },
+          X: {
+            type: Letter, buttonText: 'x', color: this.textColor, textAlign: this.textAlign, x: 1150, y: this.y
+          },
+          Y: {
+            type: Letter, buttonText: 'y', color: this.textColor, textAlign: this.textAlign, x: 1200, y: this.y
+          },
+          Z: {
+            type: Letter, buttonText: 'z', color: this.textColor, textAlign: this.textAlign, x: 1250, y: this.y
+          }
+        },
+        Choice: {
+          y: 180, x: 50, text: { text: 'Your choice is...', textColor: 0xaa000000, textAlign: 'left', fontSize: 30 }
         }
       }
     };
 
   }
 
-  function index() {
-    return Launch(App, ...arguments)
-  }
+  // to deal with key pressing we must add stagingn options to the
+  const options = { stage: { w: window.innerWidth, h: window.innerHeight, useImageWorker: false } };
+  options.keys = {
+    37: "Left",
+    39: "Right",
+    45: "Insert",
+    46: "Delete"
+  };
 
-  return index;
+  const app$1 = new App(options);
+  document.body.appendChild(app$1.stage.getCanvas());
+
+  return App;
 
 }());
 //# sourceMappingURL=appBundle.js.map
