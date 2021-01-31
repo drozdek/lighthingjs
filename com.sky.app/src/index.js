@@ -4,60 +4,34 @@ import Letter from './Letter';
 export default class App extends Lightning.Application {
 
   _handleLeft() {
+    this._setState('HandleLeftKeyClick');
     this.handleLeft();
-
-    // call state    
-    // this._setState('HandleLeftKeyClick');
   }
 
   _handleRight() {
+    this._setState('HandleRightKeyClick')
     this.handleRight();
-
-    // call state
-    // this._setState('HandleRightKeyClick')
   }
 
-  // _captureKey(key){
+  _handleUp() {
+    console.log()
+  }
 
-  // }
+  static _states() {
+    return [
+      class HandleLeftKeyClick extends this {
+        _getFocused() {
+          return this.tag('HandleLeftKeyClick');
+        }
+      },
 
-  //   _handleInsert(key){
-  // alert('handlekey' + key)
-  //   }
-
-  // code dealing with the states - this doesn't allow to perform repetative operations
-  // ie: pressing the same key multiple times
-  // therfore a 'normal' js solution is being applied
-
-  // static _states() {
-  //   return [
-  //     class HandleLeftKeyClick extends this {
-  //       $enter(event) {
-  //         console.log('on left enter...')
-  //         let elem = this.tag('LetterList');
-  //         let elemPosX = Math.ceil(elem.getSmooth('x') - 50);
-  //         elem.setSmooth("x", elemPosX);
-  //         this.currentXPos = elemPosX;      
-  //         this.getLetter();    
-  //       }
-  //       $exit(event) {
-  //       }
-  //     },
-
-  //     class HandleRightKeyClick extends this {
-  //       $enter(event) {
-  //         console.log('on right enter...')
-  //         let elem = this.tag('LetterList');
-  //         let elemPosX = Math.ceil(elem.getSmooth('x') + 50);
-  //         elem.setSmooth("x", elemPosX);
-  //         this.currentXPos = elemPosX;          
-  //         this.getLetter();
-  //       }
-  //       $exit(event) {
-  //       }
-  //     }
-  //   ]
-  // }
+      class HandleRightKeyClick extends this {
+        _getFocused(event) {
+          return this.tag('HandleRightKeyClick');
+        }
+      }
+    ]
+  }
 
   /**
    * @method _init
@@ -65,8 +39,8 @@ export default class App extends Lightning.Application {
   _init() {
     console.clear();
     console.log('Starting Sky App...')
-  }
 
+  }
 
   /**
    * @method handleClick
@@ -225,11 +199,11 @@ export default class App extends Lightning.Application {
 }
 
 // to deal with key pressing we must add stagingn options to the
-const options = {stage: {w: window.innerWidth, h: window.innerHeight, useImageWorker: false}}
-options.keys = {
-    38: "Up",
-    40: "Down"
-};
+const options = { stage: { w: window.innerWidth, h: window.innerHeight, useImageWorker: false } }
+// options.keys = {
+//     38: "Up",
+//     40: "Down"
+// };
 const app = new App(options);
 document.body.appendChild(app.stage.getCanvas());
 
